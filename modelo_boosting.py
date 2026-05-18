@@ -9,6 +9,8 @@ from sklearn.metrics import roc_auc_score
 train = pd.read_csv("competencia_icd_seguros_train.csv")
 test = pd.read_csv("competencia_icd_seguros_test.csv")
 
+print(test.columns)
+
 
 # pasar variables categoricas a numeros
 def preparar_datos(df):
@@ -43,10 +45,9 @@ y = train["Response"]
 X = train.drop("Response", axis=1)
 
 
-# este dataset no trae columna id,
-# entonces usamos el numero de fila
-
+# usar numero de fila como id
 ids = range(len(test))
+
 
 # dividir para validar
 X_train, X_valid, y_train, y_valid = train_test_split(
@@ -84,7 +85,7 @@ pred_test = modelo.predict_proba(test)[:, 1]
 
 # generar archivo para kaggle
 submission = pd.DataFrame({
-    "id": ids,
+    "test_client_id": ids,
     "Response": pred_test
 })
 
